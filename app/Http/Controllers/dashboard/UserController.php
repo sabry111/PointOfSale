@@ -62,6 +62,8 @@ class UserController extends Controller
             $request_data['img'] = $new_name;
         }
 
+
+        
         $user = User::create($request_data);
         $user->addrole('admin');
         $user->givePermissions($request->permissions);
