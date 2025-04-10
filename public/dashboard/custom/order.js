@@ -1,26 +1,4 @@
 $(document).ready(function () {
-    // add product btn
-    // $(".add-product-btn").on("click", function (e) {
-    //     e.preventDefault();
-
-    //     var name = $(this).data("name");
-    //     var id = $(this).data("id");
-    //     var price = $.number($(this).data("price"), 2);
-
-    //     $(this).removeClass("btn-success").addClass("btn-default disabled");
-
-    //     let html = `
-    //                 <tr>
-    //                 <td>${name}</td>
-    //                 <td><input type = 'number'  name= 'product_ids[${id}][quantity]' data-price='${price}' class='form-control product-quantity' min='1' value='1'></td>
-    //                 <td class='product-price'>${price}</td>
-    //                 <td> <button class='btn btn-danger remove-product-btn' data-id='${id}'><i class='fa fa-trash'></i></button></td>
-    //                 </tr>`;
-
-    //     $(".order-list").append(html);
-    //     calculateTotal();
-    // }); // end of add product btn
-
     $("body").on("click", ".disabled", function (e) {
         e.preventDefault();
     });
@@ -103,7 +81,7 @@ function addProduct(id, name, price) {
     let html = `
                 <tr>
                 <td>${name}</td>
-                <td><input type = 'number'  name= 'product_ids[${id}][quantity]' data-price='${price}' class='form-control product-quantity' min='1' value='1'></td>
+                <td><input type = 'number'  name= 'products_id[${id}][quantity]' data-price='${price}' class='form-control product-quantity' min='1' value='1'></td>
                 <td class='product-price'>${price}</td>
                 <td> <button class='btn btn-danger remove-product-btn' data-id='${id}'><i class='fa fa-trash'></i></button></td>
                 </tr>`;

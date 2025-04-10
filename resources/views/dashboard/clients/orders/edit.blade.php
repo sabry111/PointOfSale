@@ -2,7 +2,7 @@
 
 
 @section('title_page')
-    <h3>Edit Order</h3>
+    <h3>{{ ucwords(__('site.order edit')) }}</h3>
 @endsection
 
 @section('content')
@@ -11,7 +11,7 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Categories </h3>
+                        <h3 class="card-title">{{ ucwords(__('site.categories')) }} </h3>
                     </div>
                     <!-- /.card-header -->
 
@@ -23,10 +23,10 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Stock</th>
-                                        <th scope="col">Price</th>
-                                        <th scope="col">Add</th>
+                                        <th scope="col">{{ ucwords(__('site.product name')) }}</th>
+                                        <th scope="col">{{ ucwords(__('site.stock')) }}</th>
+                                        <th scope="col">{{ ucwords(__('site.price')) }}</th>
+                                        <th scope="col">{{ ucwords(__('site.add')) }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -43,8 +43,7 @@
                                                 </a>
                                             </td> --}}
                                             <td>
-                                                <button
-                                                    id="product-{{ $product->id }}"
+                                                <button id="product-{{ $product->id }}"
                                                     class="{{ in_array($product->id, $order->products->pluck('id')->toArray()) ? 'btn btn-sm btn-default disabled' : 'btn btn-sm btn-success add-product-btn' }}"
                                                     onclick="addProduct({{ $product->id }}, '{{ $product->name }}', {{ $product->sale_price }})">
                                                     <i class="fa fa-plus"></i>
@@ -68,7 +67,7 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Orders</h3>
+                        <h3 class="card-title">{{ ucwords(__('site.order')) }}</h3>
                     </div>
                     <!-- /.card-header -->
 
@@ -76,15 +75,16 @@
                         <form
                             action="{{ route('dashboard.clients.orders.update', ['order' => $order->id, 'client' => $client->id]) }}"
                             method="post">
-                            @csrf
+                            {{ csrf_field() }}
+                            {{ method_field('put') }}
                             <table class="table">
 
                                 <thead>
                                     <tr>
-                                        <th scope="col">Product</th>
-                                        <th scope="col">Quantity</th>
-                                        <th scope="col">Price</th>
-                                        <th scope="col"></th>
+                                        <th scope="col">{{ ucwords(__('site.product name')) }}</th>
+                                        <th scope="col">{{ ucwords(__('site.quantity')) }}</th>
+                                        <th scope="col">{{ ucwords(__('site.price')) }}</th>
+                                        <th scope="col">{{ ucwords(__('site.delete')) }}</th>
                                     </tr>
                                 </thead>
                                 <tbody class="order-list">
@@ -93,7 +93,7 @@
                                         <tr>
 
                                             <td>{{ $product->name }}</td>
-                                            <td><input type = 'number' name= 'product_ids[{{ $product->id }}][quantity]'
+                                            <td><input type = 'number' name = 'products_id[{{ $product->id }}][quantity]'
                                                     data-price='{{ $product->sale_price }}'
                                                     class='form-control product-quantity' min="1"
                                                     value="{{ $product->pivot->quantity }}">
@@ -108,9 +108,12 @@
                                 </tbody>
 
                             </table><br>
-                            <h4>Total : <span class="total-price">{{ number_format($order->total_price, 2) }}</span></h4>
+                            <h4>
+                                {{ ucwords(__('site.total')) }} : <span
+                                    class="total-price">{{ number_format($order->total_price, 2) }}</span></h4>
                             <br>
-                            <button class="btn btn-block btn-primary " id="edit-order-form-btn">Edit Order <i
+                            <button class="btn btn-block btn-primary "
+                                id="edit-order-form-btn">{{ ucwords(__('site.order edit')) }} <i
                                     class='fa fa-edit'></i></button>
                         </form>
                     </div>

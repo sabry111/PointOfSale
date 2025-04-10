@@ -85,6 +85,11 @@ return [
 
     'locale' => 'en',
 
+    'languages' => [
+        'ar' => 'العربية',
+        'en' => 'English',
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Application Fallback Locale
@@ -168,7 +173,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        Laratrust\LaratrustServiceProvider::class,
+
     ])->toArray(),
 
     /*
@@ -185,7 +190,7 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
 
-        'Laratrust' => Laratrust\LaratrustFacade::class,
+
     ])->toArray(),
 
 ];

@@ -9,11 +9,16 @@ use Illuminate\Notifications\Notifiable;
 use Laratrust\Contracts\LaratrustUser;
 use Laratrust\Traits\HasRolesAndPermissions;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class User extends Authenticatable implements LaratrustUser
 {
     use HasApiTokens, HasFactory, Notifiable;
     use HasRolesAndPermissions;
+
+
+
 
     /**
      * The attributes that are mass assignable.
@@ -38,14 +43,16 @@ class User extends Authenticatable implements LaratrustUser
         'remember_token',
     ];
 
-    public function getLastNameAttribute($value)
-    {
-        return ucfirst($value);
-    }
+
     public function getFirstNameAttribute($value)
     {
         return ucfirst($value);
     }
+    public function getLastNameAttribute($value)
+    {
+        return ucfirst($value);
+    }
+
 
     /**
      * The attributes that should be cast.
@@ -56,6 +63,4 @@ class User extends Authenticatable implements LaratrustUser
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-
-   
 }

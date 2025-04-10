@@ -119,9 +119,9 @@ return [
         'permission' => \App\Models\Permission::class,
 
         /**
-         * Will be used only if the teams functionality is enabled.
-         */
-        'team' => \App\Models\Team::class,
+     * Will be used only if the teams functionality is enabled.
+     */
+        // 'team' => \App\Models\Team::class,
     ],
 
     /*
@@ -293,7 +293,7 @@ return [
         | will be accessible from.
         |
         */
-        'domain' => env('LARATRUST_PANEL_DOMAIN', env('LARATRUST_PANEL_DOMAIN', (app()->runningInConsole() === false) ? request()->getHost() : 'localhost')),
+        'domain' => env('LARATRUST_PANEL_DOMAIN'),
 
         /*
         |--------------------------------------------------------------------------

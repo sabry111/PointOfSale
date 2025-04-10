@@ -7,7 +7,8 @@ use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
+// use Intervention\Image\Facades\Image;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class ProductController extends Controller
 {
@@ -16,9 +17,8 @@ class ProductController extends Controller
     {
         $this->middleware(['permission:products_read'])->only('index');
         $this->middleware(['permission:products_create'])->only('create');
-        $this->middleware(['permission:products_update'])->only('edit');
+        $this->middleware(['permission:products_update'])->only('edit','update');
         $this->middleware(['permission:products_delete'])->only('destroy');
-
     }
 
     public function index(Request $request)
@@ -26,10 +26,8 @@ class ProductController extends Controller
         $categories = Category::all();
         $products = Product::when($request->search, function ($q) use ($request) {
             return $q->where('name', 'like', '%' . $request->search . '%');
-
         })->when($request->category_id, function ($q) use ($request) {
             return $q->where('category_id', $request->category_id);
-
         })->latest()->paginate(4);
         return view('dashboard.products.index', compact('categories', 'products'));
     }
@@ -38,11 +36,11 @@ class ProductController extends Controller
     {
         $categories = Category::all();
         return view('dashboard.products.create', compact('categories'));
-
     }
 
     public function store(Request $request)
     {
+        // dd($request);
         $request_data = $request->validate([
             'name' => 'required|string|max:50',
             'desc' => 'required|string',
@@ -53,25 +51,30 @@ class ProductController extends Controller
             'img' => 'image|mimes:png,jpg,jpeg',
         ]);
 
-        if ($request->img) {
-            $new_name = $request->img->hashName();
-            Image::make($request->img)->resize(150, null, function ($constraint) {
+        if ($request->hasFile('img') && $request->file('img')->isValid()) {
+            $file = $request->file('img');
+            $path = public_path('uploads/products_image/');
+            if (!file_exists($path)) {
+                mkdir($path, 0755, true);
+            }
+            $new_name = $file->hashName();
+            $file->move($path, $new_name);
+            $image = Image::make($path . $new_name);
+            $image->resize(300, 300, function ($constraint) {
                 $constraint->aspectRatio();
-            })->save(public_path('uploads/products_image/' . $new_name));
-
+            });
+            $image->save();
             $request_data['img'] = $new_name;
         }
-
         Product::create($request_data);
         return redirect(route('dashboard.products.index'));
     }
 
-    public function edit(Product $product, $id)
+    public function edit(Product $product)
     {
 
         $categories = Category::all();
-        $products = Product::findorfail($id);
-        return view('dashboard.products.edit', compact('products', 'categories'));
+        return view('dashboard.products.edit', compact('product', 'categories'));
     }
 
     public function update(Request $request, Product $product)
@@ -85,42 +88,40 @@ class ProductController extends Controller
             'category_id' => 'required|exists:categories,id',
             'img' => 'image|mimes:png,jpg,jpeg',
         ]);
-        $old_name = Product::findorfail($request->id)->img;
-
+        $old_name = $product->img;
         if ($request->hasFile('img')) {
             if ($old_name != 'default.png') {
                 Storage::disk('public_uploads')->delete('products_image/' . $old_name);
             }
-            $new_name = $request->img->hashName();
-            Image::make($request->img)->resize(150, null, function ($constraint) {
+            $file = $request->file('img');
+            $path = public_path('uploads/products_image/');
+            if (!file_exists($path)) {
+                mkdir($path, 0755, true);
+            }
+            $new_name = $file->hashName();
+            $file->move($path, $new_name);
+            $image = Image::make($path . $new_name);
+            $image->resize(300, 300, function ($constraint) {
                 $constraint->aspectRatio();
-            })->save(public_path('uploads/products_image/' . $new_name));
+            });
+            $image->save();
             $request_data['img'] = $new_name;
-
         } else {
 
             $request_data['img'] = $old_name;
-
         }
 
-        $product = Product::find($request->id);
         $product->update($request_data);
         return redirect(route('dashboard.products.index'));
-
     }
 
-    public function destroy(Product $product, $id)
+    public function destroy(Product $product)
     {
-        $product = Product::find($id);
         $old_name = $product->img;
-
         if ($old_name != 'default.png') {
             Storage::disk('public_uploads')->delete('products_image/' . $old_name);
         }
-
-        $product = product::findorfail($id);
         $product->delete();
-
         return redirect(route('dashboard.products.index'));
     }
 }

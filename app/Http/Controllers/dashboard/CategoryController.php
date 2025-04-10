@@ -13,7 +13,7 @@ class CategoryController extends Controller
     {
         $this->middleware(['permission:categories_read'])->only('index');
         $this->middleware(['permission:categories_create'])->only('create');
-        $this->middleware(['permission:categories_update'])->only('edit');
+        $this->middleware(['permission:categories_update'])->only('edit','update');
         $this->middleware(['permission:categories_delete'])->only('destroy');
     }
 
@@ -28,7 +28,6 @@ class CategoryController extends Controller
     public function create()
     {
         return view('dashboard.categories.create');
-
     }
 
     public function store(Request $request)
@@ -39,31 +38,25 @@ class CategoryController extends Controller
 
         Category::create($request_data);
         return redirect(route('dashboard.categories.index'));
-
     }
 
-    public function edit($id)
+    public function edit(Category $category)
     {
-        $categories = Category::findorfail($id);
-        return view('dashboard.categories.edit', compact('categories'));
+        return view('dashboard.categories.edit', compact('category'));
     }
 
     public function update(Request $request, Category $category)
     {
         $request_data = $request->validate([
-            'name' => 'required|unique:categories,name',
+            'name' => 'required|unique:categories,name,' . $category->id,
         ]);
-        $category = Category::find($request->id);
         $category->update($request_data);
         return redirect(route('dashboard.categories.index'));
     }
 
-    public function destroy($id)
+    public function destroy(Category $category)
     {
-
-        $category = Category::findorfail($id);
         $category->delete();
-
         return redirect(route('dashboard.categories.index'));
     }
 }

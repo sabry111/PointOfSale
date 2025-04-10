@@ -3,9 +3,9 @@
         <table class="table table-bordered ">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Desc</th>
-                    <th>Photo</th>
+                    <th>{{  ucwords(__('site.product name')) }}</th>
+                    <th>{{  ucwords(__('site.quantity')) }}</th>
+                    <th>{{  ucwords(__('site.price')) }}</th>
 
                 </tr>
             </thead>
@@ -20,9 +20,9 @@
                 @endforeach
             </tbody>
         </table><br>
-        <h3>Total Price : <span>{{ number_format($order->total_price, 2) }}</span></h3>
+        <h3>{{  ucwords(__('site.total price')) }} : <span>{{ number_format($order->total_price, 2) }}</span></h3>
     </div>
     <br>
-    <button class="btn btn-primary btn-block print-btn"> Print Order <i class='fa fa-print'></i></button>
+    <button class="btn btn-primary btn-block print-btn">{{  ucwords(__('site.print order')) }} <i class='fa fa-print'></i></button>
 </div>
 <!-- /.card-body -->

@@ -14,9 +14,8 @@ class ClientController extends Controller
 
         $this->middleware(['permission:clients_read'])->only('index');
         $this->middleware(['permission:clients_create'])->only('create');
-        $this->middleware(['permission:clients_update'])->only('edit');
+        $this->middleware(['permission:clients_update'])->only('edit','update');
         $this->middleware(['permission:clients_delete'])->only('destroy');
-
     }
 
     public function index(Request $request)
@@ -27,7 +26,6 @@ class ClientController extends Controller
                 return $q->where('name', 'like', '%' . $request->search . '%')
                     ->orwhere('phone', 'like', '%' . $request->search . '%')
                     ->orwhere('address', 'like', '%' . $request->search . '%');
-
             });
         })->latest()->paginate(4);
         return view('dashboard.clients.index', compact('clients'));
@@ -35,8 +33,7 @@ class ClientController extends Controller
 
     public function create()
     {
-        return view('dashboard.clients.create');
-
+        return view('dashboard.clients.create'); 
     }
 
     public function store(Request $request)
@@ -49,32 +46,27 @@ class ClientController extends Controller
         $request_data['phone'] = array_filter($request->phone);
         Client::create($request_data);
         return redirect(route('dashboard.clients.index'));
-
     }
 
-    public function edit($id)
+    public function edit(Client $client)
     {
-        $clients = Client::findorfail($id);
-        return view('dashboard.clients.edit', compact('clients'));
+        return view('dashboard.clients.edit', compact('client'));
     }
 
-    public function update(Request $request)
+    public function update(Request $request, Client $client)
     {
         $request_data = $request->validate([
             'name' => 'required',
             'phone' => 'required|array|min:1',
             'address' => 'required',
         ]);
-
         $request_data['phone'] = array_filter($request->phone);
-        $client = Client::find($request->id);
         $client->update($request_data);
         return redirect(route('dashboard.clients.index'));
     }
 
-    public function destroy(Client $client, $id)
+    public function destroy(Client $client)
     {
-        $client = Client::findorfail($id);
         $client->delete();
         return redirect(route('dashboard.clients.index'));
     }

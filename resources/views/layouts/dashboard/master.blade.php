@@ -9,6 +9,7 @@
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
+    
     <div class="wrapper">
 
         <!-- Preloader -->
@@ -28,13 +29,15 @@
                         <div class="col-sm-6">
                             <h1 class="m-0">@yield('title_page')</h1>
                         </div><!-- /.col -->
-                    
+
                     </div><!-- /.row -->
                 </div><!-- /.container-fluid -->
             </div>
             <!-- /.content-header -->
 
             @yield('content')
+
+
         </div>
         @include('layouts.dashboard.footer')
 

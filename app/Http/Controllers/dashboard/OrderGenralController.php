@@ -16,15 +16,8 @@ class OrderGenralController extends Controller
         $orders = Order::whereHas('client', function ($q) use ($request) {
 
             return $q->where('name', 'like', '%' . $request->search . '%');
-
         })->latest()->paginate(5);
         return view('dashboard.orders.index', compact('orders'));
-    }
-
-    public function products(Order $order)
-    {
-        $products = $order->products()->get();
-        return view('dashboard.orders._products', compact('order', 'products'));
     }
 
     public function create()
@@ -45,7 +38,8 @@ class OrderGenralController extends Controller
      */
     public function show(Order $order)
     {
-        //
+        $products = $order->products()->get();
+        return view('dashboard.orders._products', compact('order', 'products'));
     }
 
     /**
@@ -75,7 +69,6 @@ class OrderGenralController extends Controller
                 'stock' => $product->stock + $product->pivot->quantity,
             ]);
         }
-
         $order->delete();
         return redirect(route('dashboard.orders.index'));
     }

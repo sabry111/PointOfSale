@@ -12,6 +12,8 @@ class Product extends Model
 
     protected $guarded = [];
 
+    protected $appends = ['profit_percent'];
+
     public function category()
     {
 

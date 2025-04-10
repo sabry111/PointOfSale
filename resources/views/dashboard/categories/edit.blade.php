@@ -2,7 +2,7 @@
 
 
 @section('title_page')
-    <h3>Categories Edit </h3>
+    <h3>{{ ucwords(__('site.category edit')) }} </h3>
 @endsection
 
 
@@ -10,16 +10,16 @@
     <div class="card card-primary m-3">
 
         <!-- form start -->
-        <form method="POST" action="{{ route('dashboard.categories.update') }}">
-            @csrf
+        <form method="POST" action="{{ route('dashboard.categories.update', $category->id) }}">
+            {{ csrf_field() }}
+            {{ method_field('put') }}
             <div class="card-body">
-                <input type="hidden" name="id" value="{{ $categories->id }}">
                 <div class="form-group">
-                    <label>First Name</label>
-                    <input type="text" name="name" class="form-control" value="{{ $categories->name }}">
+                    <label>{{ ucwords(__('site.category name')) }}</label>
+                    <input type="text" name="name" class="form-control" value="{{ $category->name }}">
                 </div>
 
-                <button type="submit" class="btn btn-primary">Edit</button>
+                <button type="submit" class="btn btn-primary">{{ ucwords(__('site.edit')) }}</button>
             </div>
         </form>
     </div>

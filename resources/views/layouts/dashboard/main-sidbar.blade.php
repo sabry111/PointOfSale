@@ -24,29 +24,29 @@
                    <li class="nav-item">
                        <a href="{{ route('dashboard.index') }}" class="nav-link">
                            <i class="nav-icon fas fa-th"></i>
-                           <span class="ml-1">Dashboard</span>
+                           <span class="ml-1">{{ ucfirst(__('site.dashboard')) }}</span>
                        </a>
                    </li>
                    <li class="nav-item">
                        @if (auth()->user()->hasPermission('categories_read'))
                            <a href="{{ route('dashboard.categories.index') }}" class="nav-link">
                                <i class="nav-icon fas fa-th"></i>
-                               <span class="ml-1">Categories</span>
+                               <span class="ml-1">{{ ucwords(__('site.categories')) }}</span>
                            </a>
                        @else
                            <a class="btn disabled"> <i class="nav-icon fas fa-th"></i>
-                               <span class="ml-1">Categories</span></a>
+                               <span class="ml-1">{{ ucwords(__('site.categories')) }}</span></a>
                        @endif
                    </li>
                    <li class="nav-item">
                        @if (auth()->user()->hasPermission('products_read'))
                            <a href="{{ route('dashboard.products.index') }}" class="nav-link">
                                <i class="nav-icon fas fa-th"></i>
-                               <span class="ml-1">Products</span>
+                               <span class="ml-1">{{ ucwords(__('site.products')) }}</span>
                            </a>
                        @else
                            <a class="btn disabled"> <i class="nav-icon fas fa-th"></i>
-                               <span class="ml-1">Products</span></a>
+                               <span class="ml-1">{{ ucwords(__('site.products')) }}</span></a>
                        @endif
                    </li>
 
@@ -54,22 +54,22 @@
                        @if (auth()->user()->hasPermission('clients_read'))
                            <a href="{{ route('dashboard.clients.index') }}" class="nav-link">
                                <i class="nav-icon fas fa-th"></i>
-                               <span class="ml-1">Clients</span>
+                               <span class="ml-1">{{ ucwords(__('site.clients')) }}</span>
                            </a>
                        @else
                            <a class="btn disabled"> <i class="nav-icon fas fa-th"></i>
-                               <span class="ml-1">Clients</span></a>
+                               <span class="ml-1">{{ ucwords(__('site.clients')) }}</span></a>
                        @endif
                    </li>
                    <li class="nav-item">
                        @if (auth()->user()->hasPermission('orders_read'))
                            <a href="{{ route('dashboard.orders.index') }}" class="nav-link">
                                <i class="nav-icon fas fa-th"></i>
-                               <span class="ml-1">Orders</span>
+                               <span class="ml-1">{{ ucwords(__('site.orders')) }}</span>
                            </a>
                        @else
                            <a class="btn  disabled"> <i class="nav-icon fas fa-th"></i>
-                               <span class="ml-1">Orders</span></a>
+                               <span class="ml-1">{{ ucwords(__('site.orders')) }}</span></a>
                        @endif
                    </li>
 
@@ -78,11 +78,11 @@
                        @if (auth()->user()->hasPermission('users_read'))
                            <a href="{{ route('dashboard.users.index') }}" class="nav-link">
                                <i class="nav-icon fas fa-th"></i>
-                               <span class="ml-1">Users</span>
+                               <span class="ml-1">{{ ucfirst(__('site.users')) }}</span>
                            </a>
                        @else
                            <a class="btn disabled"> <i class="nav-icon fas fa-th"></i>
-                               <span class="ml-1">Users</span></a>
+                               <span class="ml-1">{{ ucfirst(__('site.users')) }}</span></a>
                        @endif
                    </li>
                </ul>
